@@ -42,6 +42,26 @@ if page == "Ready for Review Applications":
     st.subheader("Filtered Applications")
     st.dataframe(filtered_data)
 
+
+    # Add bar chart for count of "Yes" and "No" in "Application Signed?"
+    st.subheader("Count of Signed vs. Unsigned Applications")
+
+    # Count occurrences of "Yes" and "No"
+    signed_counts = ready_for_review["Application Signed?"].value_counts()
+
+    # Keep only "Yes" and "No"
+    signed_counts = signed_counts.loc[signed_counts.index.isin(["Yes", "No"])]
+
+    # Create bar chart
+    fig, ax = plt.subplots()
+    ax.bar(signed_counts.index, signed_counts.values, color=["blue", "red"])
+    ax.set_xlabel("Application Signed?")
+    ax.set_ylabel("Count")
+    ax.set_title("Signed vs. Unsigned Applications")
+
+    st.pyplot(fig)
+
+
 # Page 2: Support by Demographics
 elif page == "Support by Demographics":
     st.title("Support Given by Demographics")
@@ -65,7 +85,7 @@ if page == "Processing Time Analysis":
     st.title("Processing Time Analysis")
 
     # Drop rows where either Grant Req Date or Payment Date is missing
-    data = data.dropna(subset=["Grant Req Date", "Payment Date"])
+    data = data.dropna(subset=["Grant Req Date", "Payment Submitted?"])
 
     # Display summary statistics
     st.subheader("Key Metrics")
@@ -87,7 +107,7 @@ if page == "Processing Time Analysis":
 
     # Show data table for review
     st.subheader("Processing Time Per Request")
-    st.dataframe(data[["Grant Req Date", "Payment Date", "Processing Time (Days)"]])
+    st.dataframe(data[["Grant Req Date", "Payment Submitted?", "Processing Time (Days)"]])
 
 
 # Page 4: Grant Utilization Analysis
