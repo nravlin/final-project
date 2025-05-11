@@ -13,8 +13,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       
-      - name: Run data update script
-        run: python data_cleaning.py  # Ensure your script processes the latest data
+      - name: Run data cleaning notebook (Final Project.ipynb)
+        run: |
+          pip install nbconvert  # Ensure Jupyter is installed
+          jupyter nbconvert --execute --to notebook --inplace "Final Project.ipynb"
 
       - name: Commit & Push updated data
         run: |
@@ -23,3 +25,6 @@ jobs:
           git add cleaned_data.xlsx
           git commit -m "Monthly data update"
           git push
+
+      - name: Run Streamlit dashboard
+        run: streamlit run dashboard.py
