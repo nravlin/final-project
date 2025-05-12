@@ -3,14 +3,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Cleaned file path
-cleaned_file_path = r"C:\Users\njrav\Downloads\cleaned_data.xlsx"
+cleaned_file_path = "cleaned_data.xlsx"
 
 # Load the cleaned data
 @st.cache_data
 def load_data():
-    return pd.read_excel(cleaned_file_path)
+    return pd.read_excel(cleaned_file_path, engine="openpyxl")  # Explicitly set the engine
 
 data = load_data()
+
 
 # Sidebar navigation to select pages
 page = st.sidebar.selectbox("Select a Page:", [
