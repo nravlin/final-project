@@ -129,7 +129,7 @@ if page == "Grant Utilization Analysis":
     avg_given_by_assistance = data.groupby("Type of Assistance (CLASS)")["Amount"].mean().reset_index()
     st.dataframe(avg_given_by_assistance)
 
-    # Optional: Visualization
+    # Visualization
     st.subheader("Average Grant Given by Assistance Type")
     st.bar_chart(avg_given_by_assistance.set_index("Type of Assistance (CLASS)"))
 
@@ -158,22 +158,22 @@ if page == "Stakeholder Summary":
     st.subheader("Processing Efficiency")
     st.write(f"Average processing time: {avg_processing_time:.2f} days.")
 
-    # Breakdown of assistance types
-    st.subheader("Funds Allocated by Assistance Type")
-    assistance_summary = data.groupby("Type of Assistance (CLASS)")["Amount"].sum().reset_index()
-    st.dataframe(assistance_summary)
-
     # Utilization Rate
     fully_used = data[data["Remaining Balance"] == 0].shape[0]
     utilization_rate = (fully_used / total_patients) * 100
     st.subheader("Grant Utilization Rate")
     st.write(f"{utilization_rate:.2f}% of patients fully used their grant.")
 
+    # Breakdown of assistance types
+    st.subheader("Funds Allocated by Assistance Type")
+    assistance_summary = data.groupby("Type of Assistance (CLASS)")["Amount"].sum().reset_index()
+    st.dataframe(assistance_summary)
+
+    # Visualization
+    st.subheader("Grant Distribution by Assistance Type")
+    st.bar_chart(assistance_summary.set_index("Type of Assistance (CLASS)"))
+
     # Demographics Summary
     st.subheader("Patient Demographics")
     demographic_summary = data[["Pt City", "Pt State", "Pt Zip", "Language", "Marital Status", "Gender", "Race", "Hispanic/Latino", "Sexual Orientation", "Household Size","Monthly Household Income Range", "Insurance Type", "Age"]].value_counts().reset_index()
     st.dataframe(demographic_summary)
-
-    # Optional: Visualization
-    st.subheader("Grant Distribution by Assistance Type")
-    st.bar_chart(assistance_summary.set_index("Type of Assistance (CLASS)"))
