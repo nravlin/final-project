@@ -175,5 +175,19 @@ if page == "Stakeholder Summary":
 
     # Demographics Summary
     st.subheader("Patient Demographics")
-    demographic_summary = data[["Pt City", "Pt State", "Pt Zip", "Language", "Marital Status", "Gender", "Race", "Hispanic/Latino", "Sexual Orientation", "Household Size","Monthly Household Income Range", "Insurance Type", "Age"]].value_counts().reset_index()
-    st.dataframe(demographic_summary)
+
+    # List of demographic categories for selection
+    demographic_options = ["Pt City", "Pt State", "Pt Zip", "Language", "Marital Status", "Gender", "Race", 
+                            "Hispanic/Latino", "Sexual Orientation", "Household Size", "Monthly Household Income Range", 
+                            "Insurance Type", "Age"]
+
+    # Dropdown for selecting a demographic category
+    selected_demographic = st.selectbox("Select a demographic category:", demographic_options)
+
+    # Count occurrences of the selected demographic category
+    demographic_counts = data[selected_demographic].value_counts().reset_index()
+    demographic_counts.columns = [selected_demographic, "Count"]  # Rename columns for clarity
+
+    # Display the demographic count summary
+    st.subheader(f"Count of {selected_demographic}")
+    st.dataframe(demographic_counts)
